@@ -1,0 +1,20 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  test-image-builds:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker image build
+          -t felix-builder:build-test
+          ./felix-builder

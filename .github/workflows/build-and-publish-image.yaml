@@ -1,0 +1,42 @@
+name: Build and publish image
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+  workflow_dispatch:
+
+jobs:
+  build-and-publish-image:
+    runs-on: ubuntu-20.04
+    permissions:
+      packages: write
+      contents: read
+    env:
+      VERSION: ${{ github.ref_name }}
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+
+      - name: Login to Github Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build image
+        run: docker image build
+          -t ghcr.io/acceptablesoftware/felix-builder:${VERSION#v}
+          ./felix-builder
+
+      - name: Publish image
+        run:
+          # Prevent overwriting if the version already exists by
+          # inspecting the manifest.
+          docker manifest inspect
+            ghcr.io/acceptablesoftware/felix-builder:${VERSION#v}
+          ||
+          docker push
+            ghcr.io/acceptablesoftware/felix-builder:${VERSION#v}
