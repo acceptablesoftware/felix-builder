@@ -33,7 +33,6 @@ looks like this
     RUN python -m venv $VIRTUAL_ENV
     RUN pip install black
 
-
     FROM gchr.io/acceptablesoftware/felix
 
     # Copy manually compiled binaries.
@@ -42,4 +41,4 @@ looks like this
     # Copy the pip installed libraries and use the virtual environment.
     VIRTUAL_ENV=/home/appuser/venv
     PATH="$VIRTUAL_ENV/bin:$PATH"
-    COPY --from=builder /home/appuser/venv /home/appuser/venv
+    COPY --from=builder /home/appuser/venv/ /home/appuser/venv/
