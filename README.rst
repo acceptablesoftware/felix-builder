@@ -28,8 +28,8 @@ looks like this
     WORKDIR /home/appuser
 
     # Install dependencies with pip into the user's virtualenv.
-    VIRTUAL_ENV=/home/appuser/venv
-    PATH="$VIRTUAL_ENV/bin:$PATH"
+    ENV VIRTUAL_ENV=/home/appuser/venv
+    ENV PATH="$VIRTUAL_ENV/bin:$PATH"
     RUN python -m venv $VIRTUAL_ENV
     RUN pip install black
 
@@ -39,6 +39,6 @@ looks like this
     COPY --from=builder /home/appuser/compiled-binary /home/appuser/
 
     # Copy the pip installed libraries and use the virtual environment.
-    VIRTUAL_ENV=/home/appuser/venv
-    PATH="$VIRTUAL_ENV/bin:$PATH"
+    ENV VIRTUAL_ENV=/home/appuser/venv
+    ENV PATH="$VIRTUAL_ENV/bin:$PATH"
     COPY --from=builder /home/appuser/venv/ /home/appuser/venv/
