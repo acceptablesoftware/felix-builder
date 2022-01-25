@@ -32,11 +32,5 @@ jobs:
           ./felix-builder
 
       - name: Publish image
-        run:
-          # Prevent overwriting if the version already exists by
-          # inspecting the manifest.
-          docker manifest inspect
-            ghcr.io/acceptablesoftware/felix-builder:${VERSION#v}
-          ||
-          docker push
-            ghcr.io/acceptablesoftware/felix-builder:${VERSION#v}
+        run: docker push
+          ghcr.io/acceptablesoftware/felix-builder:${VERSION#v}
