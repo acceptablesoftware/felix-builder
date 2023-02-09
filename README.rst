@@ -33,7 +33,7 @@ looks like this
     RUN python -m venv $VIRTUAL_ENV
     RUN pip install black
 
-    FROM gchr.io/acceptablesoftware/felix
+    FROM ghcr.io/acceptablesoftware/felix
 
     # Copy manually compiled binaries.
     COPY --from=builder /home/appuser/compiled-binary /home/appuser/
